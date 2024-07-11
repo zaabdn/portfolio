@@ -17,6 +17,11 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+.dark {
+  --background-color: rgb(17 24 39);
+  --text-color: #ffffff;
+}
+
 a {
   font-weight: 500;
   color: #646cff;
@@ -32,6 +37,8 @@ body {
   place-items: center;
   min-width: 320px;
   min-height: 100vh;
+  background-color: var(--background-color);
+  color: var(--text-color);
 }
 
 h1 {
