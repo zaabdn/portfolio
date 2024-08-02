@@ -1,16 +1,17 @@
 import { FaLinkedin } from "react-icons/fa";
 import { FaSquareXTwitter } from "react-icons/fa6";
 import { FaGithubSquare } from "react-icons/fa";
-import { useDarkMode } from "../../context/darkModeContext";
+
+import { useTheme } from "../theme/theme-provider";
 
 const Banner = () => {
-  const { darkMode } = useDarkMode();
+  const { theme } = useTheme();
 
-  const colorDark = darkMode ? "#64748b" : "black";
+  const colorDark = theme == "light" ? "#64748b" : "black";
 
   return (
-    <section className="w-full bg-white dark:bg-gray-900">
-      <div className="py-10 px-4 mx-auto max-w-screen-xl text-center lg:py-16">
+    <section className="flex w-full h-full mt-10 items-center py-20 bg-orange-300 dark:bg-gray-900">
+      <div className="py-10 px-4 mx-auto text-center lg:py-16">
         <h1 className="mb-4 text-4xl font-extrabold tracking-tight leading-none text-gray-900 md:text-5xl lg:text-6xl dark:text-white">
           Hi, I am Zainal Abidin
         </h1>

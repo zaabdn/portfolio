@@ -21,9 +21,7 @@
     "noFallthroughCasesInSwitch": true,
     "baseUrl": ".",
     "paths": {
-      "@/components/*": ["src/components/*"],
-      "@/interface/*": ["src/interface/*"]
-      // Add more aliases as needed
+      "@/*": ["./src/*"]
     }
   },
   "include": ["src/**/*.ts*"],
