@@ -7,10 +7,10 @@ import { useTheme } from "../theme/theme-provider";
 const Banner = () => {
   const { theme } = useTheme();
 
-  const colorDark = theme == "light" ? "#64748b" : "black";
+  const color = theme == "light" ? "#2f4858" : "#ffffff";
 
   return (
-    <section className="flex w-full h-full mt-10 items-center py-20 bg-orange-300 dark:bg-gray-900">
+    <section className="flex w-full min-h-screen mt-10 items-center py-20 dark:bg-gray-900">
       <div className="py-10 px-4 mx-auto text-center lg:py-16">
         <h1 className="mb-4 text-4xl font-extrabold tracking-tight leading-none text-gray-900 md:text-5xl lg:text-6xl dark:text-white">
           Hi, I am Zainal Abidin
@@ -20,13 +20,13 @@ const Banner = () => {
         </p>
         <div className="flex flex-col space-y-4 sm:flex-row sm:justify-center sm:space-y-0">
           <a href="https://linkedin.com/in/zainal-abidin-08/" target="_blank">
-            <FaLinkedin size={44} color="#0E76A8" />
+            <FaLinkedin size={44} color={color} />
           </a>
           <a href="https://twitter.com/zaabdn" className="mx-1">
-            <FaSquareXTwitter size={44} color={colorDark} />
+            <FaSquareXTwitter size={44} color={color} />
           </a>
           <a href="https://github.com/zaabdn" target="_blank">
-            <FaGithubSquare size={44} color={colorDark} />
+            <FaGithubSquare size={44} color={color} />
           </a>
         </div>
       </div>
