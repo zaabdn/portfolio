@@ -1,12 +1,21 @@
-import { Banner, Career, Footer, Header } from "@/components/index";
+import {
+  Banner,
+  Career,
+  Footer,
+  Header,
+  DownloadCV,
+  Projects,
+} from "@/components/index";
 
 export const Home = () => {
   return (
-    <div>
+    <div className="w-full">
       <Header />
       <Banner />
       <Career />
-      {/* <Footer /> */}
+      <DownloadCV />
+      <Projects />
+      <Footer />
     </div>
   );
 };
