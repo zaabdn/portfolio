@@ -36,18 +36,21 @@ const DownloadCV = () => {
   };
 
   return (
-    <section className="w-full p-16 bg-[#fff5ff] dark:bg-sky-950">
+    <section className="w-full pt-20 pb-20 bg-[#fff5ff] dark:bg-[#172135]">
+      <h2 className="mt-10 mb-4 scroll-m-20 text-3xl font-semibold tracking-tight transition-colors first:mt-0 dark:text-[#ffffff]">
+        For more information
+      </h2>
       <Button
         onClick={handleOpen}
-        className="w-40 h-12 bg-[#4b9491] dark:bg-[#fff5ff] dark:text-[#2f4858]"
+        className="w-40 h-12 bg-[#4b9491] text-white hover:bg-[#376d7a] transition-colors duration-300 ease-in-out dark:bg-[#376d7a] dark:text-[#ffffff] dark:hover:bg-[#4b9491]"
       >
         <Eye className="mr-2 h-5 w-5" /> View My CV
       </Button>
       <Button
         onClick={handleDownload}
-        className="w-44 h-12 ml-2 bg-[#2f4858] dark:bg-[#ffe8f7] dark:text-[#2f4858]"
+        className="w-44 h-12 ml-2 bg-[#2f4858] hover:bg-[#376d7a] transition-colors duration-300 ease-in-out dark:bg-[#2f4858] dark:text-[#ffffff] dark:hover:bg-[#376d7a]"
       >
-        <CloudDownload className="mr-2 h-5 w-5" />
+        <CloudDownload className="mr-2 h-5 w-5 " />
         Download My CV
       </Button>
 

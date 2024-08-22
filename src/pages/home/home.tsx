@@ -12,8 +12,8 @@ export const Home = () => {
     <div className="w-full">
       <Header />
       <Banner />
-      <Career />
       <DownloadCV />
+      <Career />
       <Projects />
       <Footer />
     </div>
