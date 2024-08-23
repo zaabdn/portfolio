@@ -38,20 +38,20 @@ const DownloadCV = () => {
   return (
     <section className="w-full pt-20 pb-20 bg-[#fff5ff] dark:bg-[#172135]">
       <h2 className="mt-10 mb-4 scroll-m-20 text-3xl font-semibold tracking-tight transition-colors first:mt-0 dark:text-[#ffffff]">
-        For more information
+        Explore My Resume
       </h2>
       <Button
         onClick={handleOpen}
-        className="w-40 h-12 bg-[#4b9491] text-white hover:bg-[#376d7a] transition-colors duration-300 ease-in-out dark:bg-[#376d7a] dark:text-[#ffffff] dark:hover:bg-[#4b9491]"
+        className="w-40 h-12 bg-[#4b9491] text-white text-lg hover:bg-[#376d7a] transition-colors duration-300 ease-in-out dark:bg-[#376d7a] dark:text-[#ffffff] dark:hover:bg-[#4b9491]"
       >
-        <Eye className="mr-2 h-5 w-5" /> View My CV
+        <Eye className="mr-2 mt-1 h-6 w-6 " /> View
       </Button>
       <Button
         onClick={handleDownload}
-        className="w-44 h-12 ml-2 bg-[#2f4858] hover:bg-[#376d7a] transition-colors duration-300 ease-in-out dark:bg-[#2f4858] dark:text-[#ffffff] dark:hover:bg-[#376d7a]"
+        className="w-44 h-12 ml-2 bg-[#2f4858] text-lg hover:bg-[#376d7a] transition-colors duration-300 ease-in-out dark:bg-[#2f4858] dark:text-[#ffffff] dark:hover:bg-[#376d7a]"
       >
-        <CloudDownload className="mr-2 h-5 w-5 " />
-        Download My CV
+        <CloudDownload className="mr-2 mt-1 h-6 w-6 " />
+        Download
       </Button>
 
       {open && <DialogView />}

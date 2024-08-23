@@ -1,0 +1,15 @@
+export const colors: { [key: string]: string } = {
+  primary: "#2f4858",
+  secondary: "#376d7a",
+  third: "#4b9491",
+  fourth: "#74ba9e",
+  fifth: "#b0dfa5",
+  sixth: "#faffaf",
+  black: "#2C3A47",
+  white: "#ffffff",
+  yellow: "#f9f871",
+  orange: "#ffe694",
+  peach: "#ffdfca",
+  pink: "#ffe8f7",
+  lavenderBlush: "#fff5ff",
+};
