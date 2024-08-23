@@ -1,10 +1,24 @@
 import DarkModeToggle from "../darkMode/darkMode";
 
-import { Events, Link, animateScroll, scrollSpy } from "react-scroll";
+import { Link, animateScroll } from "react-scroll";
 import { useEffect, useState } from "react";
+import { colors } from "@/assets/colors";
+import { Link as RouterLink } from "react-router-dom";
 
 const Header = () => {
   const [isActive, setIsActive] = useState("/");
+
+  useEffect(() => {
+    window.onscroll = function () {
+      const B = document.body; //IE 'quirks'
+      let D = document.documentElement; //IE with doctype
+      D = D.clientHeight ? D : B;
+
+      if (D.scrollTop == 0) {
+        setIsActive("/");
+      }
+    };
+  }, []);
 
   return (
     <nav className="bg-white dark:bg-gray-900 fixed w-full z-20 top-0 start-0">
@@ -52,12 +66,16 @@ const Header = () => {
           <ul className="flex flex-col p-4 md:p-0 mt-4 font-medium border border-gray-100 rounded-lg bg-gray-50 md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
             <li>
               <Link
+                to="/"
                 onClick={() => {
                   setIsActive("/");
                   animateScroll.scrollToTop();
                 }}
                 activeClass="active"
-                to="/"
+                smooth
+                duration={500}
+                offset={-70}
+                spy={true}
                 className={`${
                   isActive == "/" ? "text-[#4b9491]" : "#FFFFFF"
                 } hover:text-[#4b9491] cursor-pointer`}
@@ -69,12 +87,12 @@ const Header = () => {
             </li>
             <li>
               <Link
+                to="about"
                 activeClass="active"
                 smooth
                 duration={500}
                 offset={-70}
                 spy={true}
-                to="about"
                 className={`${
                   isActive == "about" ? "text-[#4b9491]" : "#FFFFFF"
                 } hover:text-[#4b9491] cursor-pointer`}
@@ -87,17 +105,30 @@ const Header = () => {
             </li>
             <li>
               <Link
+                to="projects"
                 activeClass="active"
                 smooth
                 duration={500}
                 offset={-70}
                 spy={true}
-                to="about"
-                className="hover:text-[#4b9491] cursor-pointer"
+                className={`${
+                  isActive == "projects" ? "text-[#4b9491]" : "#FFFFFF"
+                } hover:text-[#4b9491] cursor-pointer`}
                 activeStyle={{ color: "#4b9491" }}
+                onSetActive={() => setIsActive("projects")}
+                onClick={() => setIsActive("projects")}
+              >
+                Portfolio
+              </Link>
+            </li>
+            <li>
+              <RouterLink
+                to="https://t.me/zaabdn"
+                className={`px-2 rounded-sm py-1 bg-[${colors.primary}] text-white dark:bg-white dark:text-black`}
+                target="_blank"
               >
                 Contact
-              </Link>
+              </RouterLink>
             </li>
           </ul>
         </div>
