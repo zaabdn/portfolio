@@ -1,7 +1,11 @@
-import { Link, NavLink } from "react-router-dom";
 import DarkModeToggle from "../darkMode/darkMode";
 
+import { Events, Link, animateScroll, scrollSpy } from "react-scroll";
+import { useEffect, useState } from "react";
+
 const Header = () => {
+  const [isActive, setIsActive] = useState("/");
+
   return (
     <nav className="bg-white dark:bg-gray-900 fixed w-full z-20 top-0 start-0">
       <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
@@ -47,28 +51,53 @@ const Header = () => {
         >
           <ul className="flex flex-col p-4 md:p-0 mt-4 font-medium border border-gray-100 rounded-lg bg-gray-50 md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
             <li>
-              <NavLink
+              <Link
+                onClick={() => {
+                  setIsActive("/");
+                  animateScroll.scrollToTop();
+                }}
+                activeClass="active"
                 to="/"
-                className={(isActive) =>
-                  "nav-link" + (!isActive ? " unselected" : "")
-                }
+                className={`${
+                  isActive == "/" ? "text-[#4b9491]" : "#FFFFFF"
+                } hover:text-[#4b9491] cursor-pointer`}
+                activeStyle={{ color: "#4b9491" }}
+                onSetActive={() => setIsActive("/")}
               >
                 Home
-              </NavLink>
+              </Link>
             </li>
             <li>
-              <NavLink to="/">About</NavLink>
+              <Link
+                activeClass="active"
+                smooth
+                duration={500}
+                offset={-70}
+                spy={true}
+                to="about"
+                className={`${
+                  isActive == "about" ? "text-[#4b9491]" : "#FFFFFF"
+                } hover:text-[#4b9491] cursor-pointer`}
+                activeStyle={{ color: "#4b9491" }}
+                onSetActive={() => setIsActive("about")}
+                onClick={() => setIsActive("about")}
+              >
+                About
+              </Link>
             </li>
             <li>
-              <NavLink to="/contact">Contact</NavLink>
-            </li>
-            <li>
-              <a
-                href="#"
-                className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700"
+              <Link
+                activeClass="active"
+                smooth
+                duration={500}
+                offset={-70}
+                spy={true}
+                to="about"
+                className="hover:text-[#4b9491] cursor-pointer"
+                activeStyle={{ color: "#4b9491" }}
               >
                 Contact
-              </a>
+              </Link>
             </li>
           </ul>
         </div>
