@@ -18,12 +18,7 @@ const About = () => {
         </h2>
         <div className="text-left">
           {dataAbout.skills.split(",").map((item, i) => (
-            <Badge
-              key={i}
-              className={`mr-2 text-lg dark:${
-                i % 2 == 0 ? `bg-[${colors.secondary}]` : `bg-[${colors.third}]`
-              }`}
-            >
+            <Badge key={i} className={`mr-2 text-lg dark:bg-[${colors.white}]`}>
               {item}
             </Badge>
           ))}
