@@ -1,14 +1,25 @@
 import dayjs from "dayjs";
 import { dataCareer } from "../../data/careers";
 import About from "../about/about";
+import { useEffect } from "react";
+import { Element } from "react-scroll";
 
 const Career = () => {
-  return (
-    <section className="w-full max-w-none container p-4 mx-auto bg-white dark:bg-gray-900 ">
-      {/* <h2 className="font-heading dark:text-gray-100 mb-8 text-3xl font-bold lg:text-4xl">
-        Career
-      </h2> */}
+  useEffect(() => {
+    const hash = window.location.hash;
+    if (hash && hash === "#about") {
+      const element = document.getElementById("about");
+      if (element) {
+        element.scrollIntoView({ behavior: "smooth" });
+      }
+    }
+  }, []);
 
+  return (
+    <Element
+      name="about"
+      className="w-full max-w-none container p-4 pt-20 mx-auto bg-white dark:bg-gray-900 "
+    >
       <div className="flex flex-row pl-20 pr-20">
         <About />
         <div className="w-1/3 ml-40">
@@ -89,7 +100,7 @@ const Career = () => {
           </div>
         </div>
       </div> */}
-    </section>
+    </Element>
   );
 };
 
