@@ -28,7 +28,7 @@ const Banner = () => {
         <p className="mb-8 text-lg font-normal text-gray-500 lg:text-xl sm:px-16 lg:px-48 dark:text-gray-400">
           A Software Engineer
         </p>
-        <div className="flex flex-col space-y-4 sm:flex-row sm:justify-center sm:space-y-0">
+        <div className="flex space-y-0 flex-row justify-center items-center">
           <a
             href="https://linkedin.com/in/zainal-abidin-08/"
             target="_blank"
