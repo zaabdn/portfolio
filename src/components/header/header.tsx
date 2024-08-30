@@ -5,7 +5,11 @@ import { useEffect, useState } from "react";
 import { colors } from "@/assets/colors";
 import { Link as RouterLink } from "react-router-dom";
 
-const Header = () => {
+interface HeaderProps {
+  isAdmin?: boolean;
+}
+
+const Header = ({ isAdmin = false }: HeaderProps) => {
   const [isActive, setIsActive] = useState("/");
 
   useEffect(() => {
@@ -59,79 +63,81 @@ const Header = () => {
             </svg>
           </button>
         </div>
-        <div
-          className="items-center justify-between hidden w-full md:flex md:w-auto md:order-1"
-          id="navbar-sticky"
-        >
-          <ul className="flex flex-col p-4 md:p-0 mt-4 font-medium border border-gray-100 rounded-lg bg-gray-50 md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
-            <li>
-              <Link
-                to="/"
-                onClick={() => {
-                  setIsActive("/");
-                  animateScroll.scrollToTop();
-                }}
-                activeClass="active"
-                smooth
-                duration={500}
-                offset={-70}
-                spy={true}
-                className={`${
-                  isActive == "/" ? "text-[#4b9491]" : "#FFFFFF"
-                } hover:text-[#4b9491] cursor-pointer`}
-                activeStyle={{ color: "#4b9491" }}
-                onSetActive={() => setIsActive("/")}
-              >
-                Home
-              </Link>
-            </li>
-            <li>
-              <Link
-                to="about"
-                activeClass="active"
-                smooth
-                duration={500}
-                offset={-70}
-                spy={true}
-                className={`${
-                  isActive == "about" ? "text-[#4b9491]" : "#FFFFFF"
-                } hover:text-[#4b9491] cursor-pointer`}
-                activeStyle={{ color: "#4b9491" }}
-                onSetActive={() => setIsActive("about")}
-                onClick={() => setIsActive("about")}
-              >
-                About
-              </Link>
-            </li>
-            <li>
-              <Link
-                to="projects"
-                activeClass="active"
-                smooth
-                duration={500}
-                offset={-70}
-                spy={true}
-                className={`${
-                  isActive == "projects" ? "text-[#4b9491]" : "#FFFFFF"
-                } hover:text-[#4b9491] cursor-pointer`}
-                activeStyle={{ color: "#4b9491" }}
-                onSetActive={() => setIsActive("projects")}
-                onClick={() => setIsActive("projects")}
-              >
-                Portfolio
-              </Link>
-            </li>
-            <li>
-              <RouterLink
-                to="https://t.me/zaabdn"
-                className={`px-2 rounded-sm py-1 bg-[${colors.primary}] text-white dark:bg-white dark:text-black`}
-                target="_blank"
-              >
-                Contact
-              </RouterLink>
-            </li>
-          </ul>
-        </div>
+        {!isAdmin && (
+          <div
+            className="items-center justify-between hidden w-full md:flex md:w-auto md:order-1"
+            id="navbar-sticky"
+          >
+            <ul className="flex flex-col p-4 md:p-0 mt-4 font-medium border border-gray-100 rounded-lg bg-gray-50 md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
+              <li>
+                <Link
+                  to="/"
+                  onClick={() => {
+                    setIsActive("/");
+                    animateScroll.scrollToTop();
+                  }}
+                  activeClass="active"
+                  smooth
+                  duration={500}
+                  offset={-70}
+                  spy={true}
+                  className={`${
+                    isActive == "/" ? "text-[#4b9491]" : "#FFFFFF"
+                  } hover:text-[#4b9491] cursor-pointer`}
+                  activeStyle={{ color: "#4b9491" }}
+                  onSetActive={() => setIsActive("/")}
+                >
+                  Home
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to="about"
+                  activeClass="active"
+                  smooth
+                  duration={500}
+                  offset={-70}
+                  spy={true}
+                  className={`${
+                    isActive == "about" ? "text-[#4b9491]" : "#FFFFFF"
+                  } hover:text-[#4b9491] cursor-pointer`}
+                  activeStyle={{ color: "#4b9491" }}
+                  onSetActive={() => setIsActive("about")}
+                  onClick={() => setIsActive("about")}
+                >
+                  About
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to="projects"
+                  activeClass="active"
+                  smooth
+                  duration={500}
+                  offset={-70}
+                  spy={true}
+                  className={`${
+                    isActive == "projects" ? "text-[#4b9491]" : "#FFFFFF"
+                  } hover:text-[#4b9491] cursor-pointer`}
+                  activeStyle={{ color: "#4b9491" }}
+                  onSetActive={() => setIsActive("projects")}
+                  onClick={() => setIsActive("projects")}
+                >
+                  Portfolio
+                </Link>
+              </li>
+              <li>
+                <RouterLink
+                  to="https://t.me/zaabdn"
+                  className={`px-2 rounded-sm py-1 bg-[${colors.primary}] text-white dark:bg-white dark:text-black`}
+                  target="_blank"
+                >
+                  Contact
+                </RouterLink>
+              </li>
+            </ul>
+          </div>
+        )}
       </div>
     </nav>
   );
