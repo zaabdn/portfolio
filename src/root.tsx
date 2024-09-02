@@ -8,21 +8,23 @@ import {
 
 import { Home } from "./pages/home/home";
 import AdminDashboard from "./pages/admin";
+import LoginAdmin from "./pages/admin/login/login";
+import Cookies from "js-cookie";
 
 const useAuth = () => {
-  const user = { isAuthenticated: true, isAdmin: true };
+  const user = Cookies.get("token");
 
   return user;
 };
 
 const PrivateRouteAdmin = () => {
-  const { isAuthenticated, isAdmin } = useAuth();
+  const user = useAuth();
 
-  if (!isAuthenticated) {
+  if (!user) {
     return <Navigate to="/" replace />;
   }
 
-  if (!isAdmin) {
+  if (!user) {
     return <Navigate to={"/"} replace />;
   }
 
@@ -34,6 +36,7 @@ export const Root = () => {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Home />} />
+        <Route path="/admin/login" element={<LoginAdmin />} />
         <Route element={<PrivateRouteAdmin />}>
           <Route path="/admin" element={<AdminDashboard />} />
         </Route>
