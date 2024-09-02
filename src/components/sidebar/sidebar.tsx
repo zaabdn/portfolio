@@ -1,6 +1,5 @@
-import { TbHomeFilled } from "react-icons/tb";
-import { FaBook } from "react-icons/fa6";
 import { Link } from "react-router-dom";
+import { dataMenuSidebar } from "@/data/menu";
 
 const Sidebar = () => {
   return (
@@ -33,24 +32,19 @@ const Sidebar = () => {
           <span className="ml-3 text-base font-semibold">Zainal Abidin</span>
         </div>
         <ul className="space-y-2 text-sm font-medium">
-          <li>
-            <Link
-              to="/admin"
-              className="flex items-center rounded-lg px-3 py-2 text-slate-900 hover:bg-slate-100 dark:text-white dark:hover:bg-slate-700"
-            >
-              <TbHomeFilled size={28} />
-              <span className="ml-3 whitespace-nowrap text-lg">Home</span>
-            </Link>
-          </li>
-          <li>
-            <Link
-              to={"/admin"}
-              className="flex items-center rounded-lg px-3 py-2 text-slate-900 hover:bg-slate-100 dark:text-white dark:hover:bg-slate-700"
-            >
-              <FaBook size={28} />
-              <span className="ml-3 whitespace-nowrap text-lg">Blog</span>
-            </Link>
-          </li>
+          {dataMenuSidebar.map((item) => (
+            <li key={item.id}>
+              <Link
+                to={item.id}
+                className="flex items-center rounded-lg px-3 py-2 text-slate-900 hover:bg-slate-100 dark:text-white dark:hover:bg-slate-700"
+              >
+                <item.icon size={28} />
+                <span className="ml-3 whitespace-nowrap text-lg">
+                  {item.title}
+                </span>
+              </Link>
+            </li>
+          ))}
         </ul>
 
         <div className="mt-auto flex">

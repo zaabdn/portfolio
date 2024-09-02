@@ -2,8 +2,13 @@ import DarkModeToggle from "../darkMode/darkMode";
 
 import { Link, animateScroll } from "react-scroll";
 import { useEffect, useState } from "react";
-import { colors } from "@/assets/colors";
-import { Link as RouterLink } from "react-router-dom";
+
+import { IoLogOut } from "react-icons/io5";
+
+import { dataMenu } from "@/data/menu";
+import { Button } from "../ui/button";
+import { supabase } from "@/lib/utils";
+import { toast } from "sonner";
 
 interface HeaderProps {
   isAdmin?: boolean;
@@ -24,19 +29,65 @@ const Header = ({ isAdmin = false }: HeaderProps) => {
     };
   }, []);
 
+  const handleNavigateMenu = (menu: string) => {
+    setIsActive(menu);
+    if (menu === "/") animateScroll.scrollToTop();
+  };
+
+  const handleLogout = async () => {
+    try {
+      const { error } = await supabase.auth.signOut();
+
+      if (error) {
+        toast("Error Logout", {
+          description: "Invalid Login or Password",
+          classNames: { error: "" },
+        });
+      }
+    } catch (error) {
+      console.log("error", error);
+    }
+  };
+
   return (
     <nav className="bg-white dark:bg-gray-900 fixed w-full z-20 top-0 start-0">
-      <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
-        <a
-          href="https://flowbite.com/"
-          className="flex items-center space-x-3 rtl:space-x-reverse"
-        >
-          {/* <img src="https://flowbite.com/docs/images/logo.svg" className="h-8" alt="Flowbite Logo"> */}
-          <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">
-            {/* Flowbite */}
-          </span>
-        </a>
-        <div className="flex md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
+      <div className="relative max-w-screen-xl mx-auto p-4">
+        <div className="absolute inset-y-0 left-1/2 transform -translate-x-1/2 flex items-center">
+          <ul className="flex flex-col p-4 md:p-0 mt-4 font-medium border border-gray-100 rounded-lg bg-gray-50 md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
+            {!isAdmin &&
+              dataMenu.map((item) => (
+                <li id={item.id}>
+                  <Link
+                    to={item.id}
+                    activeClass="active"
+                    smooth
+                    duration={500}
+                    offset={-70}
+                    spy={true}
+                    className={`${
+                      isActive == item.id ? "text-[#4b9491]" : "#FFFFFF"
+                    } hover:text-[#4b9491] cursor-pointer`}
+                    activeStyle={{ color: "#4b9491" }}
+                    onSetActive={() => setIsActive(item.id)}
+                    onClick={() => handleNavigateMenu(item.id)}
+                  >
+                    {item.title}
+                  </Link>
+                </li>
+              ))}
+          </ul>
+        </div>
+
+        <div className="flex justify-end items-center">
+          {isAdmin && (
+            <Button
+              variant="ghost"
+              onClick={handleLogout}
+              className="w-32 h-10 text-[#2C3A47] dark:text-[#FFFFFF] text-lg transition-colors duration-300 ease-in-out"
+            >
+              <IoLogOut className="mr-2 mt-1 h-6 w-6 " /> Logout
+            </Button>
+          )}
           <DarkModeToggle />
           <button
             data-collapse-toggle="navbar-sticky"
@@ -63,81 +114,6 @@ const Header = ({ isAdmin = false }: HeaderProps) => {
             </svg>
           </button>
         </div>
-        {!isAdmin && (
-          <div
-            className="items-center justify-between hidden w-full md:flex md:w-auto md:order-1"
-            id="navbar-sticky"
-          >
-            <ul className="flex flex-col p-4 md:p-0 mt-4 font-medium border border-gray-100 rounded-lg bg-gray-50 md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
-              <li>
-                <Link
-                  to="/"
-                  onClick={() => {
-                    setIsActive("/");
-                    animateScroll.scrollToTop();
-                  }}
-                  activeClass="active"
-                  smooth
-                  duration={500}
-                  offset={-70}
-                  spy={true}
-                  className={`${
-                    isActive == "/" ? "text-[#4b9491]" : "#FFFFFF"
-                  } hover:text-[#4b9491] cursor-pointer`}
-                  activeStyle={{ color: "#4b9491" }}
-                  onSetActive={() => setIsActive("/")}
-                >
-                  Home
-                </Link>
-              </li>
-              <li>
-                <Link
-                  to="about"
-                  activeClass="active"
-                  smooth
-                  duration={500}
-                  offset={-70}
-                  spy={true}
-                  className={`${
-                    isActive == "about" ? "text-[#4b9491]" : "#FFFFFF"
-                  } hover:text-[#4b9491] cursor-pointer`}
-                  activeStyle={{ color: "#4b9491" }}
-                  onSetActive={() => setIsActive("about")}
-                  onClick={() => setIsActive("about")}
-                >
-                  About
-                </Link>
-              </li>
-              <li>
-                <Link
-                  to="projects"
-                  activeClass="active"
-                  smooth
-                  duration={500}
-                  offset={-70}
-                  spy={true}
-                  className={`${
-                    isActive == "projects" ? "text-[#4b9491]" : "#FFFFFF"
-                  } hover:text-[#4b9491] cursor-pointer`}
-                  activeStyle={{ color: "#4b9491" }}
-                  onSetActive={() => setIsActive("projects")}
-                  onClick={() => setIsActive("projects")}
-                >
-                  Portfolio
-                </Link>
-              </li>
-              <li>
-                <RouterLink
-                  to="https://t.me/zaabdn"
-                  className={`px-2 rounded-sm py-1 bg-[${colors.primary}] text-white dark:bg-white dark:text-black`}
-                  target="_blank"
-                >
-                  Contact
-                </RouterLink>
-              </li>
-            </ul>
-          </div>
-        )}
       </div>
     </nav>
   );
