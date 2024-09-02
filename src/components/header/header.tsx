@@ -9,12 +9,15 @@ import { dataMenu } from "@/data/menu";
 import { Button } from "../ui/button";
 import { supabase } from "@/lib/utils";
 import { toast } from "sonner";
+import Cookies from "js-cookie";
+import { useNavigate } from "react-router-dom";
 
 interface HeaderProps {
   isAdmin?: boolean;
 }
 
 const Header = ({ isAdmin = false }: HeaderProps) => {
+  const navigate = useNavigate();
   const [isActive, setIsActive] = useState("/");
 
   useEffect(() => {
@@ -37,6 +40,11 @@ const Header = ({ isAdmin = false }: HeaderProps) => {
   const handleLogout = async () => {
     try {
       const { error } = await supabase.auth.signOut();
+
+      if (!error) {
+        Cookies.set("token", "");
+        navigate("/admin/login");
+      }
 
       if (error) {
         toast("Error Logout", {
