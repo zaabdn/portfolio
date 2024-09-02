@@ -10,6 +10,7 @@ import { Home } from "./pages/home/home";
 import AdminDashboard from "./pages/admin";
 import LoginAdmin from "./pages/admin/login/login";
 import Cookies from "js-cookie";
+import CareerAdmin from "./pages/admin/career/career";
 
 const useAuth = () => {
   const user = Cookies.get("token");
@@ -39,6 +40,7 @@ export const Root = () => {
         <Route path="/admin/login" element={<LoginAdmin />} />
         <Route element={<PrivateRouteAdmin />}>
           <Route path="/admin" element={<AdminDashboard />} />
+          <Route path="/admin/career" element={<CareerAdmin />} />
         </Route>
       </Routes>
     </BrowserRouter>

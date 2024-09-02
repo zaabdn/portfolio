@@ -22,9 +22,9 @@ const Sidebar = () => {
             viewBox="0 0 24 24"
             fill="none"
             stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
             // className="lucide lucide-command"
           >
             <path d="M15 6v12a3 3 0 1 0 3-3H6a3 3 0 1 0 3 3V6a3 3 0 1 0-3 3h12a3 3 0 1 0-3-3" />
@@ -60,10 +60,10 @@ const Sidebar = () => {
               aria-roledescription="more menu"
               fill="none"
               stroke="currentColor"
-              stroke-width="2"
+              strokeWidth="2"
               className="h-5 w-5 text-black dark:text-white"
-              stroke-linecap="round"
-              stroke-linejoin="round"
+              strokeLinecap="round"
+              strokeLinejoin="round"
               // className="lucide lucide-more-horizontal"
             >
               <circle cx="12" cy="12" r="1" />
