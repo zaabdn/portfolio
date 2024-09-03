@@ -22,7 +22,6 @@ import { useEffect, useState } from "react";
 import { toast } from "sonner";
 
 const aboutMeSchema = z.object({
-  id: z.string().optional(),
   title: z.string().optional(),
   description: z.string().optional(),
 });
@@ -42,6 +41,7 @@ const AboutMeAdmin = () => {
     formState: { errors },
   } = form;
   const [isLoading, setIsLoading] = useState(false);
+  const [recordID, setRecordID] = useState(null);
 
   const fetchDataAboutMe = async () => {
     setIsLoading(true);
@@ -52,7 +52,7 @@ const AboutMeAdmin = () => {
         .maybeSingle();
 
       if (aboutMe) {
-        form.setValue("id", aboutMe.id);
+        setRecordID(aboutMe.id);
         form.setValue("title", aboutMe.title ?? "");
         form.setValue("description", aboutMe.description ?? "");
         setIsLoading(false);
@@ -66,23 +66,26 @@ const AboutMeAdmin = () => {
 
   useEffect(() => {
     fetchDataAboutMe();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const onSubmit = async (record: AboutMeFormData) => {
-    console.log(1);
+    setIsLoading(true);
     try {
       const { data, error } = await supabase
         .from("aboutMe")
         .update(record)
-        .eq("id", record.id)
+        .eq("id", recordID)
         .select();
 
       if (data) {
         console.log(data);
+        setIsLoading(false);
         toast("Record has been saved");
       }
 
       if (error) {
+        setIsLoading(false);
         console.log(error);
       }
     } catch (error) {
@@ -153,6 +156,7 @@ const AboutMeAdmin = () => {
 
                 <div className="flex justify-end">
                   <Button
+                    onClick={() => form.reset()}
                     type="submit"
                     variant="outline"
                     className="w-1/12 mr-2 text-red-500 border-red-500"

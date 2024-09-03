@@ -67,7 +67,7 @@ const CareerAdmin = () => {
   };
 
   useEffect(() => {
-    // fetchCareers();
+    fetchCareers();
   }, []);
 
   const onSubmit = async (data: CareerFormData) => {
