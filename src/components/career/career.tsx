@@ -1,10 +1,40 @@
 import dayjs from "dayjs";
-import { dataCareer } from "../../data/careers";
+
 import About from "../about/about";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Element } from "react-scroll";
+import { supabase } from "@/lib/utils";
+import Loading from "../loading/loading";
+
+interface careerProps {
+  id: number;
+  title: string;
+  company: string;
+  dateStart?: Date;
+  dateEnd?: Date;
+}
 
 const Career = () => {
+  const [dataCareer, setDataCareer] = useState<careerProps[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const fetchCareers = async () => {
+    setIsLoading(true);
+    try {
+      const { data: career, error } = await supabase.from("career").select("*");
+
+      if (career) {
+        setDataCareer(career);
+        setIsLoading(false);
+      } else if (error) {
+        console.log("err", error);
+        setIsLoading(false);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   useEffect(() => {
     const hash = window.location.hash;
     if (hash && hash === "#about") {
@@ -13,6 +43,8 @@ const Career = () => {
         element.scrollIntoView({ behavior: "smooth" });
       }
     }
+
+    fetchCareers();
   }, []);
 
   return (
@@ -20,14 +52,15 @@ const Career = () => {
       name="about"
       className="w-full max-w-none container p-4 pt-20 mx-auto bg-white dark:bg-gray-900 "
     >
-      <div className="flex flex-row pl-20 pr-20">
+      <Loading isVisible={isLoading} />
+      <div className="flex flex-row pl-20 pr-20 min-[768]:pl-1 min-[768]:pr-1">
         <About />
-        <div className="w-1/3 ml-40">
+        <div className="w-1/3 ml-40 md:w-full max-[768]:w-full">
           {dataCareer.map((item, index) => (
             <div className="flex" key={item.id}>
               <div className="mr-4 flex flex-col items-center">
                 <div>
-                  {item.isActive ? (
+                  {!item.dateEnd ? (
                     <div className="flex h-10 w-10 items-center justify-center rounded-full border-2 border-blue-900 bg-blue-900">
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -78,7 +111,7 @@ const Career = () => {
                 </p>
                 <p className="italic text-xs text-gray-600 dark:text-slate-400">
                   {`${dayjs(item.dateStart).format("MMM YYYY")} - ${
-                    item.isActive
+                    !item.dateEnd
                       ? "Now"
                       : dayjs(item.dateEnd).format("MMM YYYY")
                   }`}{" "}
