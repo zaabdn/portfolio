@@ -24,6 +24,7 @@ export const dataMenu = [
 import { TbHomeFilled } from "react-icons/tb";
 import { FaBook } from "react-icons/fa6";
 import { RiProfileFill } from "react-icons/ri";
+import { GrProjects } from "react-icons/gr";
 
 export const dataMenuSidebar = [
   {
@@ -40,5 +41,10 @@ export const dataMenuSidebar = [
     id: "aboutme",
     title: "About Me",
     icon: RiProfileFill,
+  },
+  {
+    id: "project",
+    title: "Project",
+    icon: GrProjects,
   },
 ];

@@ -7,3 +7,5 @@ export { default as Projects } from "./projects/projects";
 export { default as Sidebar } from "./sidebar/sidebar";
 export { default as DatePicker } from "./date/datePicker";
 export { default as Loading } from "./loading/loading";
+export { default as MultiSelector } from "./multiInput/multiInput";
+export { default as DataTable } from "./dataTable/dataTable";

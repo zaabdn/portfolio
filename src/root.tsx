@@ -12,6 +12,7 @@ import LoginAdmin from "./pages/admin/login/login";
 import Cookies from "js-cookie";
 import CareerAdmin from "./pages/admin/career/career";
 import AboutMeAdmin from "./pages/admin/about/aboutMe";
+import ProjectAdmin from "./pages/admin/project/project";
 
 const useAuth = () => {
   const user = Cookies.get("token");
@@ -43,6 +44,7 @@ export const Root = () => {
           <Route path="/admin" element={<AdminDashboard />} />
           <Route path="/admin/career" element={<CareerAdmin />} />
           <Route path="/admin/aboutme" element={<AboutMeAdmin />} />
+          <Route path="/admin/project" element={<ProjectAdmin />} />
         </Route>
       </Routes>
     </BrowserRouter>
