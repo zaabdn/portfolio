@@ -1,7 +1,30 @@
+import { useEffect, useState } from "react";
+
+import { zodResolver } from "@hookform/resolvers/zod";
+import { ArrowUpDown, MoreHorizontal } from "lucide-react";
+import { useForm } from "react-hook-form";
+import { ColumnDef } from "@tanstack/react-table";
+import { z } from "zod";
+
 import { DataTable, Header, MultiSelector, Sidebar } from "@/components";
+
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
 import { Checkbox } from "@/components/ui/checkbox";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import {
   Form,
   FormControl,
@@ -12,22 +35,8 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
+
 import { supabase } from "@/lib/utils";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { ColumnDef } from "@tanstack/react-table";
-import { useEffect, useState } from "react";
-import { useForm } from "react-hook-form";
-import { unknown, z } from "zod";
-import { ArrowUpDown, ChevronDown, MoreHorizontal } from "lucide-react";
-import { DropdownMenu } from "@radix-ui/react-dropdown-menu";
-import {
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { Badge } from "@/components/ui/badge";
 
 const projectSchema = z.object({
   title: z.string().min(1),
@@ -53,6 +62,7 @@ const ProjectAdmin = () => {
   } = form;
   const [dataProject, setDataProject] = useState<projectProps[]>([]);
   const [dataStacks, setDataStacks] = useState<string[]>([]);
+  const [openForm, setOpenForm] = useState<boolean>(false);
 
   const fetchProjects = async () => {
     try {
@@ -67,10 +77,6 @@ const ProjectAdmin = () => {
             stacks: project.stack?.trim().split(","),
           };
         });
-
-        // projects.map((item, idx) => {
-        //   form.setValue(`title${idx}`, item.title)
-        // })
 
         setDataProject(stacksArray);
       } else if (error) {
@@ -169,7 +175,7 @@ const ProjectAdmin = () => {
       id: "actions",
       enableHiding: false,
       header: () => <div className="text-left">Actions</div>,
-      cell: () => {
+      cell: ({ row }) => {
         return (
           <DropdownMenu>
             <DropdownMenuTrigger asChild className="flex justify-center">
@@ -180,7 +186,16 @@ const ProjectAdmin = () => {
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
               <DropdownMenuLabel>Actions</DropdownMenuLabel>
-              <DropdownMenuItem>Edit</DropdownMenuItem>
+              <DropdownMenuItem
+                onClick={() => {
+                  setOpenForm(true);
+                  setDataStacks(row.getValue("stacks"));
+                  form.setValue("title", row.getValue("title"));
+                  form.setValue("description", row.getValue("description"));
+                }}
+              >
+                Edit
+              </DropdownMenuItem>
               <DropdownMenuItem>Delete</DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
@@ -188,6 +203,93 @@ const ProjectAdmin = () => {
       },
     },
   ];
+
+  const FormDialog = () => {
+    return (
+      <Dialog open={openForm} onOpenChange={() => setOpenForm(false)}>
+        <DialogContent className="sm:max-w-[800px]">
+          <DialogHeader>
+            <DialogTitle>{form.getValues("title")}</DialogTitle>
+            <DialogDescription></DialogDescription>
+          </DialogHeader>
+          <Form {...form}>
+            <form
+              onSubmit={form.handleSubmit(onSubmit)}
+              className="space-y-4 w-full"
+            >
+              <FormItem className="text-left">
+                <FormField
+                  name="title"
+                  control={form.control}
+                  render={({ field }) => (
+                    <>
+                      <Label htmlFor="title">Job Title</Label>
+                      <FormControl>
+                        <Input {...field} type="text" id="title" />
+                      </FormControl>
+                      {errors.title && (
+                        <FormMessage>{errors.title.message}</FormMessage>
+                      )}
+                    </>
+                  )}
+                />
+              </FormItem>
+
+              <FormItem className="text-left">
+                <FormField
+                  name="description"
+                  control={form.control}
+                  render={({ field }) => (
+                    <>
+                      <Label htmlFor="description">Description</Label>
+                      <FormControl>
+                        <Textarea
+                          placeholder="Type your message here."
+                          id="description"
+                          {...field}
+                          rows={10}
+                        />
+                      </FormControl>
+                      {errors.description && (
+                        <FormMessage>{errors.description.message}</FormMessage>
+                      )}
+                    </>
+                  )}
+                />
+              </FormItem>
+
+              <FormItem className="text-left">
+                <FormField
+                  name="stacks"
+                  control={form.control}
+                  render={() => (
+                    <>
+                      <Label htmlFor="stacks" className="mr-4">
+                        Stacks
+                      </Label>
+                      <FormControl>
+                        <MultiSelector
+                          value={dataStacks}
+                          onValueChange={handleOnChangeStacks}
+                        />
+                      </FormControl>
+                      {errors.description && (
+                        <FormMessage>{errors.description.message}</FormMessage>
+                      )}
+                    </>
+                  )}
+                />
+              </FormItem>
+
+              <Button type="submit" className="flex justify-start">
+                Submit
+              </Button>
+            </form>
+          </Form>
+        </DialogContent>
+      </Dialog>
+    );
+  };
 
   return (
     <div className="w-full">
@@ -198,90 +300,7 @@ const ProjectAdmin = () => {
           <Button className="w-1/6 flex ml-auto">Add New</Button>
         </div>
         <DataTable data={dataProject} columns={columns} searchBy={"title"} />
-        {/* {dataProject.map((item, index) => (
-          <Card className="w-full flex mt-10">
-            <CardContent className="w-full flex mt-10">
-              <Form {...form}>
-                <form
-                  onSubmit={form.handleSubmit(onSubmit)}
-                  className="space-y-4 w-full"
-                >
-                  <FormItem className="text-left">
-                    <FormField
-                      name="title"
-                      control={form.control}
-                      render={({ field }) => (
-                        <>
-                          <Label htmlFor="title">Job Title</Label>
-                          <FormControl>
-                            <Input {...field} type="text" id="title" />
-                          </FormControl>
-                          {errors.title && (
-                            <FormMessage>{errors.title.message}</FormMessage>
-                          )}
-                        </>
-                      )}
-                    />
-                  </FormItem>
-
-                  <FormItem className="text-left">
-                    <FormField
-                      name="description"
-                      control={form.control}
-                      render={({ field }) => (
-                        <>
-                          <Label htmlFor="description">Description</Label>
-                          <FormControl>
-                            <Textarea
-                              placeholder="Type your message here."
-                              id="description"
-                              {...field}
-                              rows={10}
-                            />
-                          </FormControl>
-                          {errors.description && (
-                            <FormMessage>
-                              {errors.description.message}
-                            </FormMessage>
-                          )}
-                        </>
-                      )}
-                    />
-                  </FormItem>
-
-                  <FormItem className="text-left">
-                    <FormField
-                      name="stacks"
-                      control={form.control}
-                      render={({ field }) => (
-                        <>
-                          <Label htmlFor="stacks" className="mr-4">
-                            Stacks
-                          </Label>
-                          <FormControl>
-                            <MultiSelector
-                              value={item.stacks}
-                              onValueChange={handleOnChangeStacks}
-                            />
-                          </FormControl>
-                          {errors.description && (
-                            <FormMessage>
-                              {errors.description.message}
-                            </FormMessage>
-                          )}
-                        </>
-                      )}
-                    />
-                  </FormItem>
-
-                  <Button type="submit" className="flex justify-start">
-                    Submit
-                  </Button>
-                </form>
-              </Form>
-            </CardContent>
-          </Card>
-        ))} */}
+        {openForm && <FormDialog />}
       </div>
     </div>
   );
