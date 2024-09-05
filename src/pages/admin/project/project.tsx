@@ -6,7 +6,13 @@ import { useForm } from "react-hook-form";
 import { ColumnDef } from "@tanstack/react-table";
 import { z } from "zod";
 
-import { DataTable, Header, MultiSelector, Sidebar } from "@/components";
+import {
+  DataTable,
+  Header,
+  Loading,
+  MultiSelector,
+  Sidebar,
+} from "@/components";
 
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -37,12 +43,18 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 
 import { supabase } from "@/lib/utils";
+import { toast } from "sonner";
 
 const projectSchema = z.object({
   title: z.string().min(1),
   description: z.string().optional(),
   stacks: z.string().optional(),
 });
+
+interface RowOriginal {
+  id: string;
+  // Add any other properties that `original` might have
+}
 
 interface projectProps {
   title: string;
@@ -56,6 +68,10 @@ type ProjectFormData = z.infer<typeof projectSchema>;
 const ProjectAdmin = () => {
   const form = useForm<ProjectFormData>({
     resolver: zodResolver(projectSchema),
+    defaultValues: {
+      title: "",
+      description: "",
+    },
   });
   const {
     formState: { errors },
@@ -63,8 +79,11 @@ const ProjectAdmin = () => {
   const [dataProject, setDataProject] = useState<projectProps[]>([]);
   const [dataStacks, setDataStacks] = useState<string[]>([]);
   const [openForm, setOpenForm] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [recordID, setRecordID] = useState<string>("");
 
   const fetchProjects = async () => {
+    setIsLoading(true);
     try {
       const { data: projects, error } = await supabase
         .from("project")
@@ -79,6 +98,7 @@ const ProjectAdmin = () => {
         });
 
         setDataProject(stacksArray);
+        setIsLoading(false);
       } else if (error) {
         console.log("err", error);
       }
@@ -100,7 +120,45 @@ const ProjectAdmin = () => {
     fetchProjects();
   }, []);
 
-  const onSubmit = async () => {};
+  const onSubmit = async (record: ProjectFormData) => {
+    setOpenForm(false);
+    setIsLoading(true);
+    try {
+      if (!!recordID) {
+        const { data, error } = await supabase
+          .from("project")
+          .update(record)
+          .eq("id", recordID)
+          .select();
+
+        if (data) {
+          setIsLoading(false);
+          fetchProjects();
+          toast("Record has been saved");
+        }
+
+        if (error) {
+          setIsLoading(false);
+          console.log(error);
+        }
+      } else {
+        const { data, error } = await supabase.from("project").insert(record);
+
+        if (data) {
+          setIsLoading(false);
+          fetchProjects();
+          toast("Record has been saved");
+        }
+
+        if (error) {
+          setIsLoading(false);
+          console.log(error);
+        }
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const columns: ColumnDef<unknown, unknown>[] = [
     {
@@ -164,9 +222,13 @@ const ProjectAdmin = () => {
       cell: ({ row }) => {
         return (
           <div className="flex justify-start">
-            {(row.getValue("stacks") as string[]).map((o: string) => (
-              <Badge className="mr-1 align-middle items-center">{o}</Badge>
-            ))}
+            {(row.getValue("stacks") as string[]).map(
+              (o: string, idx: number) => (
+                <Badge key={idx} className="mr-1 align-middle items-center">
+                  {o}
+                </Badge>
+              )
+            )}
           </div>
         );
       },
@@ -190,8 +252,12 @@ const ProjectAdmin = () => {
                 onClick={() => {
                   setOpenForm(true);
                   setDataStacks(row.getValue("stacks"));
-                  form.setValue("title", row.getValue("title"));
-                  form.setValue("description", row.getValue("description"));
+                  form.setValue("title", row.getValue("title") ?? "");
+                  form.setValue(
+                    "description",
+                    row.getValue("description") ?? ""
+                  );
+                  setRecordID((row.original as RowOriginal).id);
                 }}
               >
                 Edit
@@ -206,7 +272,7 @@ const ProjectAdmin = () => {
 
   const FormDialog = () => {
     return (
-      <Dialog open={openForm} onOpenChange={() => setOpenForm(false)}>
+      <Dialog open={openForm}>
         <DialogContent className="sm:max-w-[800px]">
           <DialogHeader>
             <DialogTitle>{form.getValues("title")}</DialogTitle>
@@ -293,11 +359,17 @@ const ProjectAdmin = () => {
 
   return (
     <div className="w-full">
+      <Loading isVisible={isLoading} />
       <Header isAdmin={true} />
       <Sidebar />
       <div className="flex flex-col ml-72 mt-24 pr-8">
         <div className="w-full">
-          <Button className="w-1/6 flex ml-auto">Add New</Button>
+          <Button
+            className="w-1/6 flex ml-auto"
+            onClick={() => setOpenForm(true)}
+          >
+            Add New
+          </Button>
         </div>
         <DataTable data={dataProject} columns={columns} searchBy={"title"} />
         {openForm && <FormDialog />}
