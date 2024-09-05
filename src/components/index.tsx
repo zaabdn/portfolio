@@ -9,3 +9,4 @@ export { default as DatePicker } from "./date/datePicker";
 export { default as Loading } from "./loading/loading";
 export { default as MultiSelector } from "./multiInput/multiInput";
 export { default as DataTable } from "./dataTable/dataTable";
+export { default as ConfirmationDelete } from "./dialog/confirmationDelete";

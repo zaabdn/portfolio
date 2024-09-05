@@ -1,3 +1,4 @@
+/* eslint-disable no-extra-boolean-cast */
 import { useEffect, useState } from "react";
 
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -7,6 +8,7 @@ import { ColumnDef } from "@tanstack/react-table";
 import { z } from "zod";
 
 import {
+  ConfirmationDelete,
   DataTable,
   Header,
   Loading,
@@ -66,21 +68,17 @@ interface projectProps {
 type ProjectFormData = z.infer<typeof projectSchema>;
 
 const ProjectAdmin = () => {
-  const form = useForm<ProjectFormData>({
-    resolver: zodResolver(projectSchema),
-    defaultValues: {
-      title: "",
-      description: "",
-    },
-  });
-  const {
-    formState: { errors },
-  } = form;
   const [dataProject, setDataProject] = useState<projectProps[]>([]);
   const [dataStacks, setDataStacks] = useState<string[]>([]);
   const [openForm, setOpenForm] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [recordID, setRecordID] = useState<string>("");
+  const [isDelete, setIsDelete] = useState<boolean>(false);
+  const [dataEdit, setDataEdit] = useState<projectProps>({
+    title: "",
+    description: "",
+    stacks: [],
+  });
 
   const fetchProjects = async () => {
     setIsLoading(true);
@@ -90,7 +88,7 @@ const ProjectAdmin = () => {
         .select("*");
 
       if (projects) {
-        const stacksArray = projects.map((project) => {
+        const stacksArray = projects?.map((project) => {
           return {
             ...project,
             stacks: project.stack?.trim().split(","),
@@ -120,11 +118,35 @@ const ProjectAdmin = () => {
     fetchProjects();
   }, []);
 
+  const onDelete = async () => {
+    setIsLoading(true);
+    setIsDelete(false);
+    try {
+      const response = await supabase
+        .from("project")
+        .delete()
+        .eq("id", recordID);
+
+      if (response.status == 204) {
+        setRecordID("");
+        setIsLoading(false);
+        fetchProjects();
+        toast("Record has been deleted");
+      } else {
+        setIsLoading(false);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   const onSubmit = async (record: ProjectFormData) => {
     setOpenForm(false);
     setIsLoading(true);
+
     try {
       if (!!recordID) {
+        console.log(1);
         const { data, error } = await supabase
           .from("project")
           .update(record)
@@ -132,6 +154,9 @@ const ProjectAdmin = () => {
           .select();
 
         if (data) {
+          setRecordID("");
+          setDataStacks([]);
+          setDataEdit({ title: "", description: "", stacks: [] });
           setIsLoading(false);
           fetchProjects();
           toast("Record has been saved");
@@ -142,17 +167,17 @@ const ProjectAdmin = () => {
           console.log(error);
         }
       } else {
-        const { data, error } = await supabase.from("project").insert(record);
+        const response = await supabase.from("project").insert(record);
 
-        if (data) {
+        if (response.status == 201) {
           setIsLoading(false);
           fetchProjects();
           toast("Record has been saved");
         }
 
-        if (error) {
+        if (!!response.error) {
           setIsLoading(false);
-          console.log(error);
+          console.log(response.statusText);
         }
       }
     } catch (error) {
@@ -222,7 +247,7 @@ const ProjectAdmin = () => {
       cell: ({ row }) => {
         return (
           <div className="flex justify-start">
-            {(row.getValue("stacks") as string[]).map(
+            {(row.getValue("stacks") as string[])?.map(
               (o: string, idx: number) => (
                 <Badge key={idx} className="mr-1 align-middle items-center">
                   {o}
@@ -252,17 +277,24 @@ const ProjectAdmin = () => {
                 onClick={() => {
                   setOpenForm(true);
                   setDataStacks(row.getValue("stacks"));
-                  form.setValue("title", row.getValue("title") ?? "");
-                  form.setValue(
-                    "description",
-                    row.getValue("description") ?? ""
-                  );
+                  setDataEdit({
+                    title: row.getValue("title"),
+                    description: row.getValue("description"),
+                    stacks: [],
+                  });
                   setRecordID((row.original as RowOriginal).id);
                 }}
               >
                 Edit
               </DropdownMenuItem>
-              <DropdownMenuItem>Delete</DropdownMenuItem>
+              <DropdownMenuItem
+                onClick={() => {
+                  setRecordID((row.original as RowOriginal).id);
+                  setIsDelete(true);
+                }}
+              >
+                Delete
+              </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
         );
@@ -271,8 +303,27 @@ const ProjectAdmin = () => {
   ];
 
   const FormDialog = () => {
+    const form = useForm<ProjectFormData>({
+      resolver: zodResolver(projectSchema),
+      defaultValues: {
+        title: dataEdit.title,
+        description: dataEdit.description,
+      },
+    });
+    const {
+      formState: { errors },
+    } = form;
+
+    const handleClose = () => {
+      form.reset();
+      setOpenForm(false);
+      setRecordID("");
+      setDataStacks([]);
+      setDataEdit({ title: "", description: "", stacks: [] });
+    };
+
     return (
-      <Dialog open={openForm}>
+      <Dialog open={openForm} onOpenChange={handleClose}>
         <DialogContent className="sm:max-w-[800px]">
           <DialogHeader>
             <DialogTitle>{form.getValues("title")}</DialogTitle>
@@ -289,7 +340,9 @@ const ProjectAdmin = () => {
                   control={form.control}
                   render={({ field }) => (
                     <>
-                      <Label htmlFor="title">Job Title</Label>
+                      <Label id="title" htmlFor="title">
+                        Job Title
+                      </Label>
                       <FormControl>
                         <Input {...field} type="text" id="title" />
                       </FormControl>
@@ -307,7 +360,9 @@ const ProjectAdmin = () => {
                   control={form.control}
                   render={({ field }) => (
                     <>
-                      <Label htmlFor="description">Description</Label>
+                      <Label id="description" htmlFor="description">
+                        Description
+                      </Label>
                       <FormControl>
                         <Textarea
                           placeholder="Type your message here."
@@ -330,10 +385,10 @@ const ProjectAdmin = () => {
                   control={form.control}
                   render={() => (
                     <>
-                      <Label htmlFor="stacks" className="mr-4">
+                      <Label id="stacks" htmlFor="stacks" className="mr-4">
                         Stacks
                       </Label>
-                      <FormControl>
+                      <FormControl id="stacks">
                         <MultiSelector
                           value={dataStacks}
                           onValueChange={handleOnChangeStacks}
@@ -373,6 +428,13 @@ const ProjectAdmin = () => {
         </div>
         <DataTable data={dataProject} columns={columns} searchBy={"title"} />
         {openForm && <FormDialog />}
+        {isDelete && (
+          <ConfirmationDelete
+            isVisible={isDelete}
+            onClick={onDelete}
+            onClose={() => setIsDelete(false)}
+          />
+        )}
       </div>
     </div>
   );
