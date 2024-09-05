@@ -99,6 +99,8 @@ const ProjectAdmin = () => {
         setIsLoading(false);
       } else if (error) {
         console.log("err", error);
+        setIsLoading(false);
+        toast(error.message);
       }
     } catch (error) {
       console.log(error);
@@ -134,6 +136,7 @@ const ProjectAdmin = () => {
         toast("Record has been deleted");
       } else {
         setIsLoading(false);
+        toast(response.error?.message);
       }
     } catch (error) {
       console.log(error);
@@ -146,7 +149,6 @@ const ProjectAdmin = () => {
 
     try {
       if (!!recordID) {
-        console.log(1);
         const { data, error } = await supabase
           .from("project")
           .update(record)
@@ -165,6 +167,7 @@ const ProjectAdmin = () => {
         if (error) {
           setIsLoading(false);
           console.log(error);
+          toast(error.message);
         }
       } else {
         const response = await supabase.from("project").insert(record);
@@ -177,6 +180,7 @@ const ProjectAdmin = () => {
 
         if (!!response.error) {
           setIsLoading(false);
+          toast(response.error?.message);
           console.log(response.statusText);
         }
       }

@@ -11,7 +11,7 @@ import {
 import dayjs from "dayjs";
 
 interface DatePickerProps {
-  value: Date | undefined;
+  value: string | undefined;
   onValueChange: (e: Date | undefined) => void;
 }
 
@@ -33,7 +33,7 @@ const DatePicker = ({ value, onValueChange }: DatePickerProps) => {
       <PopoverContent className="w-auto p-0">
         <Calendar
           mode="single"
-          selected={value}
+          selected={dayjs(value).toDate()}
           onSelect={onValueChange}
           initialFocus
         />
