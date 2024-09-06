@@ -66,11 +66,11 @@ const LoginForm = () => {
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-center p-24">
-      <Card className="w-[600px]">
+      <Card className="w-1/3 pt-20 pb-20">
         <CardContent>
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-              <FormItem>
+              <FormItem className="text-left">
                 <FormField
                   name="email"
                   control={form.control}
@@ -88,7 +88,7 @@ const LoginForm = () => {
                 />
               </FormItem>
 
-              <FormItem>
+              <FormItem className="text-left">
                 <FormField
                   name="password"
                   control={form.control}
@@ -106,9 +106,11 @@ const LoginForm = () => {
                 />
               </FormItem>
 
-              <Button type="submit" className="w-full">
-                Login
-              </Button>
+              <div className="w-full mt-10">
+                <Button type="submit" className="w-full">
+                  Login
+                </Button>
+              </div>
             </form>
           </Form>
         </CardContent>
