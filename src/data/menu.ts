@@ -28,22 +28,22 @@ import { GrProjects } from "react-icons/gr";
 
 export const dataMenuSidebar = [
   {
-    id: "",
+    id: "/admin",
     title: "Dashboard",
     icon: TbHomeFilled,
   },
   {
-    id: "career",
+    id: "/admin/career",
     title: "Career",
     icon: FaBook,
   },
   {
-    id: "aboutme",
+    id: "/admin/aboutme",
     title: "About Me",
     icon: RiProfileFill,
   },
   {
-    id: "project",
+    id: "/admin/project",
     title: "Project",
     icon: GrProjects,
   },
