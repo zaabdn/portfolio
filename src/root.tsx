@@ -24,11 +24,11 @@ const PrivateRouteAdmin = () => {
   const user = useAuth();
 
   if (!user) {
-    return <Navigate to="/" replace />;
+    return <Navigate to="/admin/login" replace />;
   }
 
   if (!user) {
-    return <Navigate to={"/"} replace />;
+    return <Navigate to="/admin/login" replace />;
   }
 
   return <Outlet />;
