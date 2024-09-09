@@ -250,10 +250,13 @@ const ProjectAdmin = () => {
       header: () => <div className="text-left">Stacks</div>,
       cell: ({ row }) => {
         return (
-          <div className="flex justify-start">
+          <div className="flex justify-start flex-wrap">
             {(row.getValue("stacks") as string[])?.map(
               (o: string, idx: number) => (
-                <Badge key={idx} className="mr-1 align-middle items-center">
+                <Badge
+                  key={idx}
+                  className="mr-1 mb-1 align-middle items-center"
+                >
                   {o}
                 </Badge>
               )
