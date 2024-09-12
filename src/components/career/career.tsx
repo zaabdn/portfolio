@@ -1,10 +1,13 @@
-import dayjs from "dayjs";
+import { useEffect, useState } from "react";
+
+import { Element } from "react-scroll";
 
 import About from "../about/about";
-import { useEffect, useState } from "react";
-import { Element } from "react-scroll";
-import { supabase } from "@/lib/utils";
 import Loading from "../loading/loading";
+
+import dayjs from "dayjs";
+
+import { supabase } from "@/lib/utils";
 
 interface careerProps {
   id: number;

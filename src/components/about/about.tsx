@@ -1,8 +1,11 @@
-import { dataAbout } from "@/data/about";
+import { useEffect, useState } from "react";
+
 import { Badge } from "../ui/badge";
+
 import { colors } from "@/assets/colors";
 import { supabase } from "@/lib/utils";
-import { useEffect, useState } from "react";
+
+import { dataAbout } from "@/data/about";
 
 interface dataProps {
   title: string;

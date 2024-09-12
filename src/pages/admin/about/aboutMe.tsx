@@ -1,6 +1,8 @@
+import { useEffect, useState } from "react";
+
+import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { zodResolver } from "@hookform/resolvers/zod";
 
 import { Header, Loading, Sidebar } from "@/components";
 
@@ -16,10 +18,9 @@ import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import { toast } from "sonner";
 
 import { supabase } from "@/lib/utils";
-import { useEffect, useState } from "react";
-import { toast } from "sonner";
 
 const aboutMeSchema = z.object({
   title: z.string().optional(),

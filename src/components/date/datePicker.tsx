@@ -1,6 +1,7 @@
 import { Calendar as CalendarIcon } from "lucide-react";
 
-import { cn } from "@/lib/utils";
+import dayjs from "dayjs";
+
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
 import {
@@ -8,7 +9,8 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import dayjs from "dayjs";
+
+import { cn } from "@/lib/utils";
 
 interface DatePickerProps {
   value: string | undefined;

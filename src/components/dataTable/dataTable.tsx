@@ -13,7 +13,6 @@ import {
   getSortedRowModel,
   useReactTable,
 } from "@tanstack/react-table";
-import { ChevronDown } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -31,6 +30,8 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+
+import { ChevronDown } from "lucide-react";
 
 interface DataTableProps {
   data: unknown[];

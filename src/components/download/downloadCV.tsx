@@ -1,7 +1,8 @@
 import { useState } from "react";
-import { Button } from "../ui/button";
 
+import { Button } from "../ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "../ui/dialog";
+
 import { CloudDownload, Eye } from "lucide-react";
 
 const DownloadCV = () => {
@@ -13,6 +14,7 @@ const DownloadCV = () => {
       "_blank"
     );
   };
+
   const handleOpen = () => {
     setOpen(!open);
   };

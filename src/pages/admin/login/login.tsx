@@ -1,7 +1,8 @@
-import { useForm } from "react-hook-form";
-import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Cookies from "js-cookie";
+import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
+import { z } from "zod";
 
 import { Card, CardContent } from "@/components/ui/card";
 import {
@@ -17,7 +18,6 @@ import { Input } from "@/components/ui/input";
 import { toast } from "sonner";
 
 import { supabase } from "@/lib/utils";
-import { useNavigate } from "react-router-dom";
 
 // Define the schema using Zod
 const loginSchema = z.object({

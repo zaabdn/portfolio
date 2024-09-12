@@ -3,12 +3,12 @@ import { useEffect, useState } from "react";
 import { Element } from "react-scroll";
 import { Link } from "react-router-dom";
 
+import { Badge } from "../ui/badge";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "../ui/dialog";
+import { ScrollArea } from "../ui/scroll-area";
 import { Separator } from "../ui/separator";
 
 import { supabase } from "@/lib/utils";
-import { ScrollArea } from "../ui/scroll-area";
-import { Badge } from "../ui/badge";
 
 interface projectProps {
   title: string;

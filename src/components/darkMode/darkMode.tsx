@@ -2,6 +2,7 @@ import React from "react";
 
 import { HiOutlineSun } from "react-icons/hi2";
 import { IoIosMoon } from "react-icons/io";
+
 import { useTheme } from "../theme/theme-provider";
 
 const DarkModeToggle: React.FC = () => {

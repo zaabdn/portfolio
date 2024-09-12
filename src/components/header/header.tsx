@@ -1,16 +1,20 @@
+import { useEffect, useState } from "react";
+
+import Cookies from "js-cookie";
+import { useNavigate } from "react-router-dom";
+import { Link, animateScroll } from "react-scroll";
+
 import DarkModeToggle from "../darkMode/darkMode";
 
-import { Link, animateScroll } from "react-scroll";
-import { useEffect, useState } from "react";
+import { Button } from "../ui/button";
 
 import { IoLogOut } from "react-icons/io5";
 
-import { dataMenu } from "@/data/menu";
-import { Button } from "../ui/button";
 import { supabase } from "@/lib/utils";
+
+import { dataMenu } from "@/data/menu";
+
 import { toast } from "sonner";
-import Cookies from "js-cookie";
-import { useNavigate } from "react-router-dom";
 
 interface HeaderProps {
   isAdmin?: boolean;

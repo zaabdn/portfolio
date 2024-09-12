@@ -1,15 +1,16 @@
+import { useState } from "react";
+
 import { FaLinkedin } from "react-icons/fa";
 import { FaSquareXTwitter } from "react-icons/fa6";
 import { FaGithubSquare } from "react-icons/fa";
 
-import { useTheme } from "../theme/theme-provider";
-import { useState } from "react";
 import { colors } from "@/assets/colors";
+
+import { useTheme } from "../theme/theme-provider";
 
 const Banner = () => {
   const { theme } = useTheme();
   const [isHovered, setIsHovered] = useState("");
-
   const color = theme == "light" ? "#2f4858" : "#ffffff";
 
   const iconStyles = (color: string, secondColor: string, type: string) => {
