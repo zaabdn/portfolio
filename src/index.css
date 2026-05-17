@@ -1,0 +1,73 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    background-color: #FFFBEF;
+    font-family: 'Space Grotesk', sans-serif;
+    color: #000000;
+  }
+  #root { width: 100%; overflow-x: hidden; }
+}
+
+@layer components {
+  .neo-card {
+    @apply border-2 border-black shadow-neo bg-white;
+  }
+  .neo-btn {
+    @apply border-2 border-black shadow-neo font-bold px-5 py-2.5 transition-all duration-150 cursor-pointer inline-block;
+  }
+  .neo-btn:hover {
+    @apply translate-x-[2px] translate-y-[2px] shadow-none;
+  }
+  .neo-badge {
+    @apply border-2 border-black shadow-neo-sm font-mono text-sm font-bold px-3 py-1 inline-block;
+  }
+  .section-title {
+    @apply font-mono font-bold text-4xl md:text-5xl border-b-4 border-black pb-2 inline-block mb-10;
+  }
+}
+
+/* ── Rainbow "ZA" logo ── */
+.rainbow-text {
+  background: linear-gradient(
+    135deg,
+    #FF6B9D, #FF9F1C, #FFE135, #6BCB77, #4D96FF, #9B59FF, #FF6B9D
+  );
+  background-size: 300% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: rainbow-shift 3s linear infinite;
+}
+
+@keyframes rainbow-shift {
+  from { background-position: 0% center; }
+  to   { background-position: 300% center; }
+}
+
+/* ── Hero name gradient ── */
+.hero-name-gradient {
+  background: linear-gradient(
+    90deg,
+    #FF6B9D 0%,
+    #FF9F1C 25%,
+    #4D96FF 50%,
+    #9B59FF 75%,
+    #FF6B9D 100%
+  );
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: hero-name-shift 4s linear infinite;
+}
+
+@keyframes hero-name-shift {
+  from { background-position: 0% center; }
+  to   { background-position: 200% center; }
+}
