@@ -2,28 +2,31 @@ import { motion } from 'motion/react';
 
 const skillGroups = [
   {
-    title: 'Mobile',
-    color: 'bg-neo-pink',
-    skills: ['React Native', 'Redux', 'React Query', 'Flutter'],
-  },
-  {
-    title: 'Frontend',
+    title: 'Tech Stack',
     color: 'bg-[#4D96FF]',
-    skills: ['ReactJS', 'NextJS', 'TypeScript', 'JavaScript', 'Vite'],
-  },
-  {
-    title: 'Backend',
-    color: 'bg-neo-green',
-    skills: ['Node.js', '.NET', 'GraphQL', 'REST API'],
+    textColor: 'text-white',
+    skills: [
+      'React Native', 'Flutter', 'ReactJS', 'NextJS',
+      'TypeScript', 'JavaScript', 'Vite', 'Redux', 'React Query',
+      'Node.js', 'ExpressJS', '.NET', 'GraphQL',
+      'REST API', 'MySQL', 'SQL Server', 'MongoDB',
+    ],
   },
   {
     title: 'Tools',
     color: 'bg-neo-orange',
-    skills: ['GIT', 'JIRA', 'Figma', 'Docker', 'TradingView'],
+    textColor: 'text-black',
+    skills: ['GIT', 'JIRA', 'Figma', 'Docker', 'Firebase', 'TradingView'],
+  },
+  {
+    title: 'Soft Skills',
+    color: 'bg-neo-pink',
+    textColor: 'text-white',
+    skills: ['Project Management', 'Teamwork', 'Problem Solving', 'Communication'],
   },
 ];
 
-const dropRotations = [-5, 4, -3, 6];
+const dropRotations = [-4, 5, -3];
 
 export default function Skills() {
   return (
@@ -41,27 +44,23 @@ export default function Skills() {
           <h2 className="section-title" style={{ marginBottom: 0 }}>Skills</h2>
         </motion.div>
 
-        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="flex flex-col gap-8">
           {skillGroups.map((group, gi) => (
-            /* Card drops from above with slight tilt */
             <motion.div
               key={group.title}
-              className="neo-card overflow-hidden"
-              initial={{ y: -120, opacity: 0, rotate: dropRotations[gi] }}
-              whileInView={{ y: 0, opacity: 1, rotate: 0 }}
+              initial={{ y: -60, opacity: 0 }}
+              whileInView={{ y: 0, opacity: 1 }}
               viewport={{ once: true }}
               transition={{ type: 'spring', stiffness: 280, damping: 14, delay: gi * 0.12 }}
             >
-              <div className={`${group.color} border-b-2 border-black px-4 py-3`}>
-                <span className="font-mono font-bold text-sm uppercase tracking-widest">
-                  {group.title}
-                </span>
-              </div>
-              <div className="p-4 flex flex-wrap gap-2 bg-white">
+              <h3 className="font-mono font-bold text-sm uppercase tracking-widest text-black/50 mb-3 border-b-2 border-black pb-2">
+                {group.title}
+              </h3>
+              <div className="flex flex-wrap gap-2">
                 {group.skills.map((skill, si) => (
                   <motion.span
                     key={skill}
-                    className="neo-badge bg-white text-black cursor-default"
+                    className="neo-badge bg-neo-bg text-black cursor-default"
                     initial={{ scale: 0, rotate: -20 }}
                     whileInView={{ scale: 1, rotate: 0 }}
                     viewport={{ once: true }}
@@ -69,7 +68,7 @@ export default function Skills() {
                       type: 'spring',
                       stiffness: 600,
                       damping: 12,
-                      delay: gi * 0.12 + si * 0.06,
+                      delay: gi * 0.12 + si * 0.04,
                     }}
                     whileHover={{ scale: 1.12, rotate: [-2, 2, -2, 0], transition: { duration: 0.3 } }}
                   >
