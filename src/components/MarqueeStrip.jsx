@@ -1,16 +1,15 @@
 import './MarqueeStrip.css';
 
 const items = [
-  '★ FRONTEND DEV',
-  '💻 REACT NATIVE',
-  '⚡ NEXTJS',
-  '🎨 TYPESCRIPT',
-  '📱 MOBILE DEV',
-  '🚀 JAKARTA',
-  '✨ 6+ YEARS',
-  '🔥 OPEN TO COLLAB',
-  '🛠️ FULLSTACK',
-  '💡 UI/UX LOVER',
+  '💻 SOFTWARE ENGINEER',
+  '📍 JAKARTA',
+  '⚡ 6+ YEARS',
+  '🤝 OPEN TO COLLAB',
+  '📈 STOCK MARKET',
+  '🔍 ANALYST',
+  '💰 INVESTING',
+  '🌱 VOLUNTEERING',
+  '✈️ TRAVELING',
 ];
 
 export default function MarqueeStrip({ reverse = false, bg = 'bg-black', textColor = 'text-white' }) {
