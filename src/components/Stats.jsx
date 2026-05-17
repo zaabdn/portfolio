@@ -3,8 +3,8 @@ import { motion } from 'motion/react';
 
 const stats = [
   { value: 6, suffix: '+', label: 'Years Experience', color: 'bg-neo-pink', emoji: '🚀' },
-  { value: 7,  suffix: '',  label: 'Projects Built',  color: 'bg-[#4D96FF]', emoji: '🏗️' },
-  { value: 4,  suffix: '',  label: 'Companies',        color: 'bg-neo-green', emoji: '🏢' },
+  { value: 9,  suffix: '',  label: 'Projects Built',  color: 'bg-[#4D96FF]', emoji: '🏗️' },
+  { value: 7,  suffix: '',  label: 'Companies',        color: 'bg-neo-green', emoji: '🏢' },
   { value: 10, suffix: '+', label: 'Tech Skills',      color: 'bg-neo-orange', emoji: '⚡' },
 ];
 
