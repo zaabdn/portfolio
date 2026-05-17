@@ -122,7 +122,7 @@ export default function Hero() {
           <span className="text-black/40">I&apos;m a</span>
           <span className="inline-block border-b-4 border-black overflow-hidden">
             <RotatingText
-              texts={['Frontend Dev', 'React Native Dev', 'Mobile Dev', 'Fullstack Dev', 'Software Engineer']}
+              texts={['Software Engineer', 'Stock Market Enthusiast', 'Traveler', 'Volunteer']}
               mainClassName="text-black"
               rotationInterval={2200}
               staggerDuration={0.04}
