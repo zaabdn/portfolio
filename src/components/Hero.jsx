@@ -133,7 +133,7 @@ export default function Hero() {
         </motion.div>
 
         <BlurText
-          text="Building beautiful web and mobile experiences with 6+ years of passion"
+          text="A software engineer who loves building things, analyzing markets, and exploring the world."
           delay={60}
           animateBy="words"
           direction="bottom"
