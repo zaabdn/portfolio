@@ -7,6 +7,7 @@ const links = [
   { label: 'Experience', href: '#experience', color: 'bg-neo-green' },
   { label: 'Education',  href: '#education',  color: 'bg-[#FFE8F5]' },
   { label: 'Projects',   href: '#projects',   color: 'bg-neo-pink' },
+  { label: 'Articles',   href: '#articles',   color: 'bg-[#E8F8F0]', strike: true },
   { label: 'Contact',    href: '#contact',    color: 'bg-neo-orange' },
 ];
 
@@ -38,7 +39,7 @@ export default function Navbar() {
               <li key={link.href}>
                 <a
                   href={link.href}
-                  className={`font-mono font-bold text-sm px-3 py-1.5 border-2 border-transparent hover:${link.color} hover:border-black hover:shadow-neo-sm transition-all duration-150`}
+                  className={`font-mono font-bold text-sm px-3 py-1.5 border-2 border-transparent hover:${link.color} hover:border-black hover:shadow-neo-sm transition-all duration-150 ${link.strike ? 'line-through' : ''}`}
                 >
                   {link.label}
                 </a>
@@ -107,7 +108,7 @@ export default function Navbar() {
                   >
                     <button
                       onClick={() => handleNav(link.href)}
-                      className="w-full text-left font-mono font-bold text-lg px-6 py-4 border-b-2 border-black hover:bg-neo-mint transition-colors"
+                      className={`w-full text-left font-mono font-bold text-lg px-6 py-4 border-b-2 border-black hover:bg-neo-mint transition-colors ${link.strike ? 'line-through' : ''}`}
                     >
                       {link.label}
                     </button>
